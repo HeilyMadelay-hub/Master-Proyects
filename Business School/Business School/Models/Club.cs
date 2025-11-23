@@ -1,6 +1,1 @@
-ï»¿namespace Business_School.Models
-{
-    public class Club
-    {
-    }
-}
+// Archivo vacío según solicitud.
