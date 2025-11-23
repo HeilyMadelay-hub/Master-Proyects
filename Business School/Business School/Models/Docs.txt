@@ -1,0 +1,19 @@
+﻿What I have learned while creating the models:
+
+The main entities are Club, Department, Event, and Student.
+
+Student:
+
+"One student can join a club and participate in events":
+
+public ICollection<StudentClub> ClubMemberships { get; set; } = new List<StudentClub>();
+public ICollection<EventAttendance> EventAttendances { get; set; } = new List<EventAttendance>();
+
+
+Intermediate tables are only created when you need to store extra data. By doing this from the beginning instead of doing it implicitly, you avoid having to refactor the code. That’s why I created EventAttendances, ClubMemberships, and EventClub.
+
+We use ICollection to represent the “many” side of foreign keys.
+
+For example:
+
+public Club Club { get; set; } = null!;

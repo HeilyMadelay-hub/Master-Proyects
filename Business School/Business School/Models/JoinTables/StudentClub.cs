@@ -1,1 +1,15 @@
-// Archivo vacío según solicitud.
+ï»¿namespace Business_School.Models.JoinTables
+{
+    public class StudentClub
+    {
+        public int StudentId { get; set; }
+        public Student Student { get; set; } = null!;
+
+        public int ClubId { get; set; }
+        public Club Club { get; set; } = null!;
+
+        public DateTime JoinedAt { get; set; } = DateTime.UtcNow;
+        public bool IsLeader { get; set; } = false;     // para rol ClubLeader
+        public int PointsFromThisClub { get; set; } = 0;
+    }
+}
