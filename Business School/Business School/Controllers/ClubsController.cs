@@ -115,7 +115,7 @@ namespace Business_School.Controllers
             if (User.IsInRole(RoleHelper.DepartmentManager))
             {
                 var userId = int.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
-//this is what is going to have the form
+                //this is what is going to have the form
                 vm.DepartmentId = await _db.Departments
                     .Where(d => d.ManagerUserId == userId)
                     .Select(d => d.Id)
@@ -264,6 +264,17 @@ namespace Business_School.Controllers
                 Capacity = club.Capacity,
                 Departments = new SelectList(await _db.Departments.OrderBy(d => d.Name).ToListAsync(), "Id", "Name", club.DepartmentId)
             };
+
+
+            //you are not initializing the return url according to the role
+
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                if (User.IsInRole(RoleHelper.ClubLeader))
+                    returnUrl = Url.Action("ClubLeader", "Dashboard");
+                else
+                    returnUrl = Url.Action(nameof(Index));
+            }
             ViewData["ReturnUrl"] = returnUrl;
             return View(vm);
         }
