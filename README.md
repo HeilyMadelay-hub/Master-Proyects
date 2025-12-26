@@ -6,8 +6,6 @@
 ![Entity Framework](https://img.shields.io/badge/Entity_Framework-8.0-512BD4?style=for-the-badge)
 ![SQL Server](https://img.shields.io/badge/SQL_Server-LocalDB-CC2927?style=for-the-badge&logo=microsoft-sql-server)
 
-> **Note**: This is a specific branch (`backend-advanced-module3-exam`) containing exam projects for the Advanced Backend Development module.
-
 ---
 
 ## 📋 Table of Contents
@@ -866,4 +864,5 @@ Through this exam, the following skills were demonstrated:
 ### 4. ✅ Best Practices
 - Async/await patterns throughout
 - Dependency injection configuration
+
 - Separation of concerns (Controllers → Services → Data
