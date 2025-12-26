@@ -857,6 +857,6 @@ Through this exam, the following skills were demonstrated:
 ### 4. ✅ Best Practices
 - Async/await patterns throughout
 - Dependency injection configuration
+- Separation of concerns
 
-- Separation of concerns (Controllers → Services → Data
 
