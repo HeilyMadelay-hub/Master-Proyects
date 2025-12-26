@@ -639,13 +639,6 @@ dotnet run
 # Access in browser: https://localhost:5001
 ```
 
-**Common Issues:**
-- **Error**: "Cannot open database ReservasDB"
-  - **Solution**: Run `dotnet ef database update` to create the database
-  
-- **Error**: "dotnet ef command not found"
-  - **Solution**: Install EF Core tools: `dotnet tool install --global dotnet-ef`
-
 #### 3. Exercise 2 - Web API Inventory System
 ```bash
 cd ../Ejercicio2
@@ -866,3 +859,4 @@ Through this exam, the following skills were demonstrated:
 - Dependency injection configuration
 
 - Separation of concerns (Controllers → Services → Data
+
