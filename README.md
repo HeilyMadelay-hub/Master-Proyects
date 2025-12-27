@@ -17,23 +17,31 @@ Complete REST API built with Node.js, TypeScript, and MongoDB that enables event
 ## 🏗️ System Architecture
 
 ```
-┌─────────────┐         ┌──────────────┐         ┌─────────────┐
-│   Client    │────────▶│  REST API    │────────▶│  MongoDB    │
-│   (User)    │◀────────│  (Express)   │◀────────│  (Replica)  │
-└─────────────┘         └──────────────┘         └─────────────┘
-       │                       │
-       │                       │
-       │                ┌──────┴──────┐
-       │                │  Background │
-       │                │    Jobs     │
-       │                └─────────────┘
-       │                       
-       └────────────────┐
-                        │
-                 ┌──────▼──────┐
-                 │  WebSocket  │
-                 │  (Socket.io)│
-                 └─────────────┘
+          ┌─────────────┐
+          │   Client        │
+          │   (User)        │
+          └─────┬───────┘
+                │
+                ▼
+         ┌──────────────┐
+         │   REST API       │
+         │  (Express)       │
+         └──────┬───────┘
+        ┌──────┴───────┐
+        │                  │
+        ▼                  ▼
+┌─────────────┐   ┌─────────────┐
+│   MongoDB       │   │ Background      │
+│  (Replica)      │   │   Jobs          │
+└─────────────┘   └─────────────┘
+        ▲
+        │
+        ▼
+  ┌─────────────┐
+  │ WebSocket       │
+  │ (Socket.io)     │
+  └─────────────┘
+
 ```
 
 **Ticket purchase flow:**
@@ -118,22 +126,22 @@ LOG_LEVEL=debug
 
 ### Authentication
 
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| POST | `/api/auth/register` | Register new user | No |
-| POST | `/api/auth/login` | Login | No |
-| GET | `/api/auth/profile` | View current profile | Yes |
+| Method | Endpoint             | Description               | Auth Required |
+| ------ | -------------------- | ------------------------- | ------------- |
+| POST   | `/api/auth/register` | Register a new user       | No            |
+| POST   | `/api/auth/login`    | Login                     | No            |
+| GET    | `/api/auth/profile`  | View current user profile | Yes           |
 
 ### Events
 
-| Method | Endpoint | Description | Auth | Role |
-|--------|----------|-------------|------|------|
-| GET | `/api/events` | List events | No | - |
-| GET | `/api/events/:id` | View event details | No | - |
-| POST | `/api/events` | Create event | Yes | Organizer/Admin |
-| PUT | `/api/events/:id` | Update event | Yes | Organizer/Admin |
-| DELETE | `/api/events/:id` | Delete event | Yes | Admin |
-| GET | `/api/events/search` | Search events | No | - |
+| Method | Endpoint             | Description                      | Auth Required | Role Required   |
+| ------ | -------------------- | -------------------------------- | ------------- | --------------- |
+| GET    | `/api/events`        | List all events                  | No            | -               |
+| GET    | `/api/events/:id`    | View details of a specific event | No            | -               |
+| POST   | `/api/events`        | Create a new event               | Yes           | Organizer/Admin |
+| PUT    | `/api/events/:id`    | Update an existing event         | Yes           | Organizer/Admin |
+| DELETE | `/api/events/:id`    | Delete an event                  | Yes           | Admin           |
+| GET    | `/api/events/search` | Search for events                | No            | -               |
 
 **Query params for search:**
 - `?fecha=2024-12-31` - Filter by date
@@ -142,30 +150,32 @@ LOG_LEVEL=debug
 
 ### Ticket Categories
 
-| Method | Endpoint | Description | Auth | Role |
-|--------|----------|-------------|------|------|
-| GET | `/api/events/:id/categories` | List categories | No | - |
-| POST | `/api/events/:id/categories` | Create category | Yes | Organizer |
-| PUT | `/api/events/:id/categories/:catId` | Update category | Yes | Organizer |
-| DELETE | `/api/events/:id/categories/:catId` | Delete category | Yes | Organizer |
+| Method | Endpoint                               | Description       | Auth | Role      |
+|--------|----------------------------------------|-------------------|------|-----------|
+| GET    | `/api/events/:id/categories`           | List categories   | No   | -         |
+| POST   | `/api/events/:id/categories`           | Create category   | Yes  | Organizer |
+| PUT    | `/api/events/:id/categories/:catId`    | Update category   | Yes  | Organizer |
+| DELETE | `/api/events/:id/categories/:catId`    | Delete category   | Yes  | Organizer |
 
 ### Orders
 
-| Method | Endpoint | Description | Auth |
-|--------|----------|-------------|------|
-| POST | `/api/orders` | Create order (reserve) | Yes |
-| GET | `/api/orders/my-orders` | View my orders | Yes |
-| GET | `/api/orders/:id` | View order details | Yes |
-| PUT | `/api/orders/:id/confirm` | Confirm payment | Yes |
-| PUT | `/api/orders/:id/cancel` | Cancel order | Yes |
+| Method | Endpoint                     | Description            | Auth |
+|--------|------------------------------|------------------------|------|
+| POST   | `/api/orders`                | Create order (reserve) | Yes  |
+| GET    | `/api/orders/my-orders`      | View my orders         | Yes  |
+| GET    | `/api/orders/:id`            | View order details     | Yes  |
+| PUT    | `/api/orders/:id/confirm`    | Confirm payment        | Yes  |
+| PUT    | `/api/orders/:id/cancel`     | Cancel order           | Yes  |
+
 
 ### Admin
 
-| Method | Endpoint | Description | Auth | Role |
-|--------|----------|-------------|------|------|
-| GET | `/api/admin/orders` | View all orders | Yes | Admin |
-| GET | `/api/admin/stats` | General statistics | Yes | Admin |
-| GET | `/api/admin/events/:id/sales` | Sales by event | Yes | Admin/Organizer |
+| Method | Endpoint                       | Description          | Auth | Role              |
+|--------|--------------------------------|----------------------|------|-------------------|
+| GET    | `/api/admin/orders`            | View all orders      | Yes  | Admin             |
+| GET    | `/api/admin/stats`             | General statistics   | Yes  | Admin             |
+| GET    | `/api/admin/events/:id/sales`  | Sales by event       | Yes  | Admin / Organizer |
+
 
 ## 🔌 WebSocket Events
 
